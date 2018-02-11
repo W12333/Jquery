@@ -1,0 +1,86 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JS 日期加判断-jq22.com</title>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<style>
+input {
+	border:1px solid #ccc;
+	border-radius:5px;
+	margin:0 5px;
+	padding:5px 10px;
+	width:80px;
+}
+</style>
+</head>
+<body>
+<label><input type="text" id="date-year" maxlength="4" onkeypress="return event.keyCode>=48&amp;&amp;event.keyCode<=57" onkeyup="date_year()">年</label>
+<label><input type="text" id="date-month" maxlength="2" onkeypress="return event.keyCode>=48&amp;&amp;event.keyCode<=57" onkeyup="date_month(this)">月</label>
+<label><input type="text" id="date-day" maxlength="2" onkeypress="return event.keyCode>=48&amp;&amp;event.keyCode<=57" onkeyup="date_day(this)">日</label>
+
+<script>
+function date_year() {
+    document.getElementById('date-month').value = document.getElementById('date-day').value = ""; //修改年份时清空月日
+}
+
+function date_month(val) {
+    var y = document.getElementById('date-year').value;
+    var m = parseInt(val.value);
+
+    if (!y) { //必须先填写年份才能填写月份
+        val.value = "";
+        alert("请先填写年份！");
+    } else if (m > 12 || m < 1) { //月份的取值范围
+        val.value = '';
+    }
+    document.getElementById('date-day').value = ""; //修改月份时清空日
+}
+
+function date_day(val) {
+    var y = parseInt(document.getElementById('date-year').value);
+    var m = parseInt(document.getElementById('date-month').value);
+    var d = parseInt(val.value);
+
+    if (!m) { //必须先填写月份才能填写天
+        val.value = "";
+        alert("请先填写月份！");
+        return false;
+    }
+
+    switch (m) {
+        case 2:
+            //2月的时候运行  先判断是否是闰年
+            if (y % 4 == 0 && y % 100 != 0 || y % 400 == 0) {
+                //闰年
+                if (d > 29 || d < 1) {
+                    val.value = "";
+                }
+            } else {
+                //平年
+                if (d > 28 || d < 1) {
+                    val.value = "";
+                }
+            }
+            break;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+            //小月的时候运行
+            if (d > 30 || d < 1) {
+                val.value = "";
+            }
+            break;
+        default:
+            //大月的时候运行
+            if (d > 31 || d < 1) {
+                val.value = "";
+            }
+            break;
+    }
+}
+</script>
+
+</body>
+</html>
