@@ -1,0 +1,202 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery下拉选择框获取多个值-jq22.com</title>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<style>
+@charset "utf-8";
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+.selectbox {
+    width: 700px;
+    margin: 0 auto;
+}
+
+input {
+    cursor: pointer;
+    width: 200px;
+    height: 25px;
+}
+
+.selemediv {
+    width: 180px;
+    height: 35px;
+    float: left;
+    margin-top: 30px;
+    margin-left: 30px;
+    position: relative
+}
+
+.insuranceList {
+    box-shadow: 0px 0px 1px 1px #ccc;
+    font-size: 14px;
+    color: #666;
+    padding: 20px 40px;
+    position: absolute;
+    top: 35px;
+    left: 0;
+    background: #fff;
+    border-bottom: 1px solid #f6f6f6;
+    display: none;
+    border-radius: 5px;
+}
+
+.insuranceList ul {
+    float: left;
+    width: 500px;
+    line-height: 54px;
+}
+
+.insuranceList ul li {
+    float: left;
+    cursor: pointer
+}
+
+.insuranceList ul li:hover {
+    color: dodgerblue
+}
+
+.insuranceList li {
+    width: 25%;
+}
+
+.insuranceList .leibie {
+    width: 80px;
+    float: left;
+    line-height: 54px;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+.insuranceList .active {
+    color: #fff;
+    background-color: dodgerblue;
+    display: inline-block;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.insuranceType1,
+.insuranceType2 {
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    float: left;
+    font: normal bold 16px/24px arial, sans-serif;
+    cursor: pointer
+}
+
+.typeList1 ._active {
+    color: dodgerblue;
+}
+
+.typeList2 ._active {
+    color: dodgerblue;
+}</style>
+</head>
+<body>
+<div class="selectbox">
+    <div class="selemediv">
+        <div class="selemenu">
+            <!--2.赋给#myIput展示出来-->
+            <input type="text" id="myIput" placeholder="请选择保险类型" readonly="readonly">
+            <!--1.把获取的值先存放在这里-->
+            <input type="text" id="myIput2" style="display: none">
+        </div>
+        <div class="insuranceList">
+            <div class="insuranceType1">旅游保险</div>
+            <ul class="typeList1">
+                <li>自驾游保险</li>
+                <li>商务出行保险</li>
+                <li>全球旅游保险</li>
+                <li>高原游保险</li>
+            </ul>
+            <div class="insuranceType2">意外保险</div>
+            <ul class="typeList2">
+                <li>航空意外年险</li>
+                <li>交通意外险</li>
+                <li>人身意外险</li>
+                <li>高风险运动险</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+//展开下拉框
+$(".selemenu").click(function() {
+    $(this).next().slideToggle(200);
+})
+getVal('.insuranceType1', '.typeList1 li');
+getVal('.insuranceType2', '.typeList2 li');
+
+function getVal(element, element2) {
+    $(element).click(function() {
+        $(this).addClass("active");
+        var text1 = $(this).text();
+        $('#myIput').val(text1);
+        $(element2).removeClass("_active");
+    })
+    $(element2).click(function() {
+        $(element).addClass("active");
+        $('#myIput').val('');
+        $(element2).removeClass("_active");
+        $(this).addClass("_active");
+        var text2 = $(this).text();
+        $('#myIput2').val(text2);
+        $('#myIput').val($(element).text() + ">" + $('#myIput2').val());
+    });
+    $('.insuranceType1').click(function() {
+        $('.insuranceType2').removeClass('active');
+        $('.typeList2 li').removeClass('_active');
+    });
+    $('.insuranceType2').click(function() {
+        $('.insuranceType1').removeClass('active');
+        $('.typeList1 li').removeClass('_active');
+    });
+    $('.typeList1 li').click(function() {
+        $('.insuranceType2').removeClass('active');
+        $('.typeList2 li').removeClass('active');
+        $('.typeList2 li').removeClass('_active');
+    });
+    $('.typeList2 li').click(function() {
+        $('.insuranceType1').removeClass('active');
+        $('.typeList1 li').removeClass('active');
+        $('.typeList1 li').removeClass('_active');
+    });
+    $('.typeList2 li').dblclick(function() {
+        $(".insuranceList").slideUp(200);
+    });
+    $('.typeList1 li').dblclick(function() {
+        $(".insuranceList").slideUp(200);
+    });
+}
+$(function() {
+    $(document).not($(".selectbox")).click(function() {
+        $(".insuranceList").slideUp(200);
+    })
+    $(".selectbox").click(function(event) {
+        event.stopPropagation();
+    })
+})
+</script>
+
+</body>
+</html>
