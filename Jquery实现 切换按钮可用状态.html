@@ -1,0 +1,140 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery实现 切换按钮的可用状态-jq22.com</title>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<style>
+.btn {
+	display:inline-block;
+	padding:6px 12px;
+	margin-bottom:0;
+	font-size:14px;
+	font-weight:normal;
+	line-height:1.42857143;
+	text-align:center;
+	white-space:nowrap;
+	vertical-align:middle;
+	-ms-touch-action:manipulation;
+	touch-action:manipulation;
+	cursor:pointer;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+	background-image:none;
+	border:1px solid transparent;
+	border-radius:4px;
+}
+.btn-primary {
+	color:#fff;
+	background-color:#337ab7;
+	border-color:#2e6da4;
+}
+.btn-primary:focus,.btn-primary.focus {
+	color:#fff;
+	background-color:#286090;
+	border-color:#122b40;
+}
+.btn-primary:hover {
+	color:#fff;
+	background-color:#286090;
+	border-color:#204d74;
+}
+.btn.disabled,.btn[disabled] {
+	cursor:not-allowed;
+	filter:alpha(opacity=65);
+	-webkit-box-shadow:none;
+	box-shadow:none;
+	opacity:.65;
+}
+a.btn.disabled {
+	pointer-events:none;
+}
+input[type=checkbox] {
+	display:inline-block;
+	width:20px;
+	height:20px;
+	line-height:20px;
+	vertical-align:middle;
+	margin:0 4px;
+}
+</style>
+</head>
+<body>
+单个按钮切换: <input type="checkbox" name="toggle" id="toggleValue">
+<button class="btn btn-primary" id="sbtn">按钮</button>
+<hr>
+多个按钮切换: <input type="checkbox" name="toggleb" id="toggleValueb">
+<button class="btn btn-primary" id="sbtna">按钮A</button>
+<button class="btn btn-primary" id="sbtnb">按钮B</button>
+<button class="btn btn-primary" id="sbtnc">按钮C</button>
+<button class="btn btn-primary" id="sbtnd">按钮D</button>
+
+<script>
+$.fn.toggleable = function(fn, fc) {
+    $(this).addClass('disabled');
+    if ($(this).length && $(this).length > 0) {
+        if (arguments && arguments.length > 0) {
+            if (arguments.length === 2) {
+                $(this).each(function() {
+                    $(this).data("rfc", fc);
+                });
+            } else if (arguments.length > 2) {
+                var index = 1;
+                var fcs = arguments;
+                $(this).each(function() {
+                    $(this).data("rfc", fcs[index++]);
+                });
+            }
+            $(this).click(function(e) {
+                var bb = false;
+                if (fn && typeof fn === "function") {
+                    bb = fn.call(this, e);
+                }
+                if (bb === true) {
+                    var rfci = $(this).data("rfc");
+                    if (rfci && typeof rfci === "function") {
+                        rfci.call(this, e);
+                    }
+                } else {
+                    return;
+                }
+            }).mouseover(function(e) {
+                var bb = false;
+                if (fn && typeof fn === "function") {
+                    bb = fn.call(this, e);
+                }
+                if (bb === true) {
+                    $(this).removeClass('disabled');
+                } else {
+                    $(this).addClass('disabled');
+                }
+            });
+        }
+    }
+    return this;
+};
+//1. 一个按钮.
+$("#sbtn").toggleable(function() {
+    return $("#toggleValue")[0].checked;
+}, function() {
+    alert("我可以用的!");
+});
+//2.多个按钮.
+
+$("#sbtna,#sbtnb,#sbtnc,#sbtnd").toggleable(function() {
+    return $("#toggleValueb")[0].checked;
+}, function() {
+    alert($(this).attr("id") + " 可用!11");
+}, function() {
+    alert($(this).attr("id") + " 可用!22");
+}, function() {
+    alert($(this).attr("id") + " 可用!33");
+}, function() {
+    alert($(this).attr("id") + " 可用!44");
+});
+</script>
+
+</body>
+</html>
