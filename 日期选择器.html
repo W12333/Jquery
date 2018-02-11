@@ -1,0 +1,65 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>简单的时间选择器-jq22.com</title>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<style>
+</style>
+</head>
+<body>
+<select name="nian" id="nian"></select>年
+<select name="nian" id="yue"></select>月
+<select name="nian" id="ri"></select>日
+
+<script>
+$(function() {
+    var mydate = new Date();
+    var nian = mydate.getFullYear();
+    var yue = mydate.getMonth() + 1;
+    for (var i = nian; i > 1900; i--) {
+        var html_nian = '<option value="' + i + '">' + i + '</option>';
+        $('#nian').append(html_nian);
+    }
+    for (var ii = 1; ii <= 12; ii++) {
+        var html_yue = '<option value="' + ii + '">' + ii + '</option>';
+        $('#yue').append(html_yue);
+    }
+    $('#nian').change(function() {
+        my_ri($('#nian').val(), $('#yue').val())
+    });
+    $('#yue').change(function() {
+        my_ri($('#nian').val(), $('#yue').val())
+    });
+})
+
+function my_ri(n, y, r) {
+    if (n > 0 && y > 0) {
+        $('#ri').html('');
+        var mydate_ri = new Date(n, y, 0);
+        var ri = mydate_ri.getDate();
+        for (var iii = 1; iii <= ri; iii++) {
+            var html_ri = '<option value="' + iii + '">' + iii + '</option>';
+            $('#ri').append(html_ri);
+        }
+        $.each($('#nian').find('option'), function(i) {
+            if ($('#nian').find('option').eq(i).attr('value') == n) {
+                $('#nian').find('option').eq(i).attr('selected', 'selected')
+            }
+        })
+        $.each($('#yue').find('option'), function(i) {
+            if ($('#yue').find('option').eq(i).attr('value') == y) {
+                $('#yue').find('option').eq(i).attr('selected', 'selected')
+            }
+        })
+        $.each($('#ri').find('option'), function(i) {
+            if ($('#ri').find('option').eq(i).attr('value') == r) {
+                $('#ri').find('option').eq(i).attr('selected', 'selected')
+            }
+        })
+    }
+}
+</script>
+
+</body>
+</html>
