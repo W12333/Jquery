@@ -1,0 +1,138 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>纯css实现下拉框效果-jq22.com</title>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<style>
+.ru
+{
+    background: red; /*对div进行宽度、高度等进行调整*/
+    width: 1000px;
+    height: 50px;
+    margin:0 auto;
+}
+.ru ul
+{
+    list-style: none;
+}
+.ru ul li ul
+{
+    display: none;      /*隐藏嵌套的ul*/
+}
+.ru ul li:hover ul
+{
+    display: block;     /*鼠标触发显示ul*/
+}
+.ru ul #a1
+{
+    float:left;          /*使ul中的li在同一行显示*/
+}
+li#a1
+{
+    width: 100px;
+    text-align: center;   /*对ul中的li进行位置调整*/
+    margin-top: 1%;
+}
+ul#a2
+{
+    margin: 0;
+    padding: 0;
+    margin-top: 15px;    /*对嵌套的ul进行位置调整*/
+}
+
+ul#a2 li
+{
+    border: 1px solid black;
+    border-bottom-style: none;  /*对嵌套的ul中li设置边框，并去除底部边框*/
+    height: 30px;               /*一下三句用来设置li的位置等样式*/
+    line-height: 30px;
+    background: purple;
+}
+ul #a2 li:last-child
+{
+    border: 1px solid black;/*为最后一个li设置边框*/
+}
+ul #a2 li:hover
+{
+    color: white;  /*设置嵌套的ul中的li中的文字触发状态*/
+}
+</style>
+</head>
+<body>
+<div class="ru">
+    <ul id="c1">
+        <li id="a1">生活习惯
+            <ul id="a2">
+                <li>早上六点起床</li>
+                <li>晚上十点睡觉</li>
+                <li>中午一点午睡</li>
+            </ul>
+        </li>
+        <li id="a1">个人技能
+            <ul id="a2">
+                <li>编程</li>
+                <li>攻防</li>
+                <li>制图</li>
+            </ul>
+        </li>
+        <li id="a1">个人技能
+            <ul id="a2">
+                <li>编程</li>
+                <li>攻防</li>
+                <li>制图</li>
+            </ul>
+        </li>
+        <li id="a1">个人技能
+            <ul id="a2">
+                <li>编程</li>
+                <li>攻防</li>
+                <li>制图</li>
+            </ul>
+        </li>
+        <li id="a1">个人技能
+            <ul id="a2">
+                <li>编程</li>
+                <li>攻防</li>
+                <li>制图</li>
+            </ul>
+        </li>
+        <li id="a1">个人技能
+            <ul id="a2">
+                <li>编程</li>
+                <li>攻防</li>
+                <li>制图</li>
+            </ul>
+        </li>
+        <li id="a1">个人技能
+            <ul id="a2">
+                <li>编程</li>
+                <li>攻防</li>
+                <li>制图</li>
+            </ul>
+        </li>
+        <li id="a1">个人技能
+            <ul id="a2">
+                <li>编程</li>
+                <li>攻防</li>
+                <li>制图</li>
+            </ul>
+        </li>
+        <li id="a1">个人技能
+            <ul id="a2">
+                <li>编程</li>
+                <li>攻防</li>
+                <li>制图</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+
+
+<script>
+
+</script>
+
+</body>
+</html>

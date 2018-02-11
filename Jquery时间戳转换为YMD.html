@@ -1,0 +1,63 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery时间戳转换为Ymd-jq22.com</title>
+<script src="http://libs.baidu.com/jquery/1.8.3/jquery.min.js"></script>
+<style>
+</style>
+</head>
+<body>
+<div class="time">
+    	<div data="1515640111">时间戳：1515640111</div>
+</div>
+
+<script>
+/**
+ * [DateToTime 时间戳转换为日期]
+ * @param {[type]} unixTime [时间戳]
+ * @param {String} type     [Y-m-d,Y-m-d H:i:s,Y/m/d,Y/m/d H:i:s,Y年m月d日,Y年m月d日 H:i:s]
+ */
+function DateToTime(unixTime,type="Y-M-D H:i:s"){
+    var date = new Date(unixTime * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    var datetime = "";
+    datetime += date.getFullYear() + type.substring(1,2);
+    datetime += (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + type.substring(3,4);
+    datetime += (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate());
+    if (type.substring(5,6)) {
+        if (type.substring(5,6).charCodeAt() > 255) {
+            datetime += type.substring(5,6);
+            if (type.substring(7,8)) {
+                datetime += " " + (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours());
+                if (type.substring(9,10)) {
+                    datetime += type.substring(8,9) + (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes());
+                    if (type.substring(11,12)) {
+                        datetime += type.substring(10,11) + (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds());
+                    };
+                };
+            };
+        }else{
+            datetime += " " + (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours());
+            if (type.substring(8,9)) {
+                datetime += type.substring(7,8) + (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes());
+                if (type.substring(10,11)) {
+                    datetime += type.substring(9,10) + (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds());
+                };
+            };
+        };
+    };
+    return datetime; 
+}
+$(function(){
+	$(".time").append("<div>标准转换："+DateToTime("1515640111")+"</div>");
+	$(".time").append("<div>Y-m-d："+DateToTime("1515640111","Y-m-d")+"</div>");
+	$(".time").append("<div>Y-m-d H:i:s："+DateToTime("1515640111","Y-m-d H:i:s")+"</div>");
+	$(".time").append("<div>Y/m/d："+DateToTime("1515640111","Y/m/d")+"</div>");
+	$(".time").append("<div>Y/m/d H:i:s："+DateToTime("1515640111","Y/m/d H:i:s")+"</div>");
+	$(".time").append("<div>Y年m月d日："+DateToTime("1515640111","Y年m月d日")+"</div>");
+	$(".time").append("<div>Y年m月d日 H:i:s："+DateToTime("1515640111","Y年m月d日 H:i:s")+"</div>");
+})
+</script>
+
+</body>
+</html>

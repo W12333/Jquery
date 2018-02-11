@@ -1,0 +1,176 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>基于谷歌api的地图-jq22.com</title>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<style>
+* {
+	padding:0;
+	margin:0;
+	list-style:none;
+	text-decoration:none;
+	box-sizing:border-box;
+}
+html {
+	background-color:#F2F3F7;
+	width:100%;
+	height:100%;
+}
+body {
+	width:100%;
+}
+#wrap_wrap {
+	width:100%;
+	height:100%;
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:999;
+	background:#eee;
+}
+.wrap_mapBtn {
+	width:100%;
+}
+.wrap_mapBtn .mapBtn {
+	width:80%;
+	height:3rem;
+	line-height:3rem;
+	font-size:1.2rem;
+	text-align:center;
+	border-radius:1.5rem;
+	background:#FF9800;
+	margin:0 auto;
+	color:#fff;
+}
+.map_text {
+	width:13.6rem;
+	height:2.9866rem;
+	color:#9E9E9E;
+	position:absolute;
+	left:5.125rem;
+	font-size:0.7466rem;
+}
+</style>
+</head>
+<body>
+<div id="wrap_wrap">
+    <div id="map" style="height: 722px;  "> </div>
+    <div id="xy" style="padding: 5px 20px 5px 20px">经度:115.13704150016795<br>纬度:30.228359433213203<br></div>
+    <div id="addr" style="padding: 5px 20px 5px 20px">地图选取位置</div>
+    <div class="wrap_mapBtn">
+        <div class="mapBtn">确定</div>
+    </div>
+</div>
+<script type="text/javascript" src="http://ditu.google.cn/maps/api/js?v=3.exp&amp;sensor=false&amp;libraries=panoramio&amp;key=AIzaSyDZAKzKRIp33u8mvbHKd3Jc7SqoNcY6eu8"></script>
+
+<script>
+var map, geocoder, tx, ty, x, y, zoom, info, mode, distmks = [],
+    distlines = null,
+    gdir, gdirDisplay, extdiv2, ishide, ggdiv, mapjob, rdiv, ispano, panoLayer, crossm, owindow = null,
+    sharemode = 1;
+var args = getArgs();
+args.x && args.y && args.zoom ? (tx = parseFloat(args.x), ty = parseFloat(args.y), uzoom = parseInt(args.zoom)) : (tx = 104.06352012451183, ty = 30.65411024515776, uzoom = 4, showinfo = 1);
+
+function getArgs() {
+    for (var a = {}, e = location.search.substring(1).split("&"), f = 0; f < e.length; f++) {
+        var g = e[f].indexOf("=");
+        if (-1 != g) {
+            var h = e[f].substring(0, g),
+                g = e[f].substring(g + 1);
+            a[h] = decodeURIComponent(g)
+        }
+    }
+    return a
+}
+
+function getxy() {
+    var a = map.getCenter();
+    tx = a.lng();
+    ty = a.lat();
+    uzoom = map.getZoom();
+    var e = "经度:" + tx + "<br />纬度:" + ty + "<br />";
+    document.getElementById("xy").innerHTML = e;
+
+    var latLngData = ty.toFixed(6) + ',' + tx.toFixed(6);
+
+    $.ajax({
+        type: "post",
+        url: "http://maps.google.cn/maps/api/geocode/json?latlng=" + latLngData + "×tamp=1477655731&language=zn-ch",
+        async: true,
+        success: function(data) {
+            //alert(latLngData);
+            //这里进行的是地址的分析
+            // data 回调过来的参数
+            //$("#jwd").val(latLngData);
+
+            var site = data.results[0].formatted_address;
+            //console.log(site)
+            $("#addr").text("");
+            $("#addr").text(site);
+
+            var infowindow = new google.maps.InfoWindow({
+                content: site
+            });
+            //infowindow.open(map,marker); //弹出信息提示窗口
+
+        }
+    });
+
+
+    crossm.setPosition(a);
+}
+
+function stageResize() {
+    th1 = getWindowHeight() - 200;
+    th2 = getWindowHeight() - 60;
+    if (document.getElementById("right")) {
+        document.getElementById("right").style.height = th2 + "px";
+        document.getElementById("left").style.height = th2 + "px";
+    }
+    if (document.getElementById("map")) {
+        document.getElementById("map").style.height = th1 + "px";
+    }
+    if (document.getElementById("travelpart")) {
+        document.getElementById("travelpart").style.height = th2 + "px";
+    }
+}
+window.onresize = function() {
+    stageResize();
+};
+
+function getWindowHeight() {
+    return window.self && self.innerHeight ? self.innerHeight : document.documentElement && document.documentElement.clientHeight ? document.documentElement.clientHeight : 0
+}
+
+function mapload() {
+    stageResize();
+    geocoder = new google.maps.Geocoder;
+    panoLayer = new google.maps.panoramio.PanoramioLayer;
+    var a = new google.maps.LatLng(ty, tx),
+        e = {
+            zoom: 13,
+            mapTypeId: 'roadmap',
+            animation: google.maps.Animation.DROP,
+            center: a,
+            disableDefaultUI: !0,
+        };
+    map = new google.maps.Map(document.getElementById("map"), e);
+    crossm = new google.maps.Marker({
+        position: a,
+        map: map,
+        icon: "http://www.jq22.com/tp/aeae9614-dfcc-4ef0-a3af-305764f7021f.png"
+    });
+    google.maps.event.addListener(map, "click", function(a) {
+        mapclick(a.latLng, a);
+        owindow && owindow.close()
+    });
+    google.maps.event.addListener(map, "center_changed", function() {
+        getxy();
+    });
+}
+mapload();
+</script>
+
+</body>
+</html>

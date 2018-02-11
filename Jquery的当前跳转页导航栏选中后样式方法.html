@@ -1,0 +1,104 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jQuery当前跳转页导航栏选中后样式方法(原创)-jq22.com</title>
+<script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+<style>
+a {
+	text-decoration:none;
+	color:#333;
+}
+#nav {
+	overflow:hidden;
+}
+#nav ul li {
+	background:#eaeaea;
+	float:left;
+	margin-right:10px;
+	padding:10px 15px;
+	list-style:none;
+	position:relative;
+	color:#181818;
+}
+#nav ul li.selected {
+	background:#515151;
+}
+.selected {
+	background:#515151;
+}
+#nav ul li.selected a {
+	color:#fff;
+}
+#nav ul li a {
+	text-decoration:none;
+	display:block;
+}
+#nav span {
+	width:0;
+	height:0;
+	border-right:10px solid transparent;
+	border-top:10px solid red;
+	position:absolute;
+	top:0;
+	left:0;
+	display:none;
+}
+#nav li:first-child span {
+	display:block;
+}
+</style>
+</head>
+<body>
+<div id="nav">
+    <ul>
+        <li class="selected">
+            <span></span>
+            <a href="index.html">全部</a>
+        </li>
+        <li>
+            <span></span>
+            <a href="index2.html">高峰论坛</a></li>
+        <li>
+            <span></span>
+            <a href="index3.html">区域论坛</a></li>
+        <li>
+            <span></span>
+            <a href="index4.html">招商大会</a></li>
+        <li>
+            <span></span>
+            <a href="index5.html">城市沙龙</a></li>
+        <li>
+            <span></span>
+            <a href="index6.html">培训公开课</a></li>
+    </ul>
+</div>
+
+<script>
+$(function() {
+    //导航
+    var link = $("#nav li");
+    var links = $("#nav a");
+    link.each(function() {
+        $(this).click(function() {
+            $(this).addClass('selected');
+            $(this).find('span').show();
+            $(this).siblings().removeClass('selected');
+            $(this).siblings().find('span').hide();
+            return false; //防止页面跳转
+        });
+    });
+    //当前页或者跳转后页面的导航栏添加选中后样式
+    $("#nav a").each(function() {
+        $this = $(this);
+        if ($this[0].href == String(window.location)) { //String 对象用于处理文本（字符串）
+            $this.parent().addClass("selected");
+        }
+
+    });
+
+})
+</script>
+
+</body>
+</html>

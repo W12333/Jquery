@@ -1,0 +1,69 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>点击切换（原创）-jq22.com</title>
+<script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+<style>
+* {
+	margin:0;
+	padding:0;
+}
+.box {
+	margin:auto;
+	width:608px;
+	height:300px;
+	border:1px solid #666;
+}
+ul {
+	width:608px;
+	height:50px;
+	list-style:none;
+}
+li {
+	float:left;
+	width:150px;
+	height:50px;
+	border:1px solid #999;
+	text-align:center;
+	line-height:50px;
+}
+.cont {
+	width:150px;
+	height:50px;
+	float:left;
+	position:absolute;
+	font-size:20px;
+	display:none;
+}
+.cont1 {
+	display:block;
+}
+.cur {
+	background-color:#666;
+}
+</style>
+</head>
+<body>
+<div class="box">
+    <ul>
+        <li class="cur">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
+    <div class="cont cont1">a</div>
+    <div class="cont">b</div>
+    <div class="cont">c</div>
+    <div class="cont">d</div>
+</div>
+
+<script>
+$(".box ul li").click(function() {
+    $(this).addClass("cur").siblings().removeClass("cur")
+    $(".cont").eq($(this).index()).show().siblings(".cont").hide()
+})
+</script>
+
+</body>
+</html>

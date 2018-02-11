@@ -1,0 +1,274 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JS焦点轮播(原创)-jq22.com</title>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<style>
+*{
+			margin: 0; padding:0; border: 0;list-style: none;
+		}
+
+		.box{
+			width: 600px; height: 300px;
+			margin: 0 auto;
+			margin-top:20px; 
+			overflow: hidden;
+			position: relative;
+			top: 0;
+			left: 0;
+		}
+
+		.nei{
+			width: 10000px;
+			height: 300px;
+			
+			position: absolute;
+			top: 0;
+			left: 0;
+
+		}
+		.nei li{
+			float: left;
+			width:600px;
+			height:300px;
+			color:#fff;
+			font-family:"微软雅黑";
+			font-size:40px;
+			text-align:center;
+			line-height:300px;
+		}
+
+		.qingchu{
+			clear: both;
+		}
+
+		.jiao{
+				width: 160px;
+				height: 20px;
+				position: absolute;
+				left: 50%;
+				bottom: 20px;
+				margin-left: -80px;
+		}
+		.jiao li{
+			width: 20px;
+			height: 20px;
+			background-color: green;
+			float: left;
+			margin-left: 10px;
+			margin-right: 10px;
+			border-radius: 50%;
+			cursor: pointer;
+		}
+
+		.left{
+			width: 50px; height: 100px;
+			background-color: rgba(0,0,0,0.3);
+			position: absolute;
+			bottom: 50%;
+			left: 20px;
+			margin-bottom:-50px;
+			color: #fff;
+			font-weight: 500;
+			font-size: 80px;
+			line-height: 100px;
+			text-align: center; 
+			cursor: pointer;
+		}
+
+		.right{
+			width: 50px; height: 100px;
+			background-color: rgba(0,0,0,0.3);
+			position: absolute;
+			bottom: 50%;
+			right: 20px;
+			margin-bottom:-50px; 
+			color: #fff;
+			font-weight: 500;
+			font-size: 80px;
+			line-height: 100px;
+			text-align: center; 
+			cursor: pointer;
+		}</style>
+</head>
+<body>
+<div class="box">
+    <div id="nei" class="nei" style="left: 0">
+        <ul>
+
+            <li style="background-color:#e4007f">最猪的BOSS</li>
+            <li style="background-color:#687de8">最萌的BOSS</li>
+            <li style="background-color:#2fb936">最蠢的BOSS</li>
+            <li style="background-color:#4dd5d0">最萌的BOSS</li>
+            <li style="background-color:#e4007f">最猪的BOSS</li>
+        </ul>
+
+    </div>
+
+
+    <div id="jiao" class="jiao">
+        <ul>
+            <li onmouseover="qiejiao(0)" style="background-color:#fff"></li>
+            <li onmouseover="qiejiao(1)"></li>
+            <li onmouseover="qiejiao(2)"></li>
+            <li onmouseover="qiejiao(3)"></li>
+
+        </ul>
+
+    </div>
+    <div class="left" onclick="goleft()">&lt;</div>
+    <div class="right" onclick="goright()">&gt;</div>
+
+</div>
+
+<script>
+var t1 = 0 //点击次数
+var t2 = 0 //焦点轮回
+var timer
+
+var w1
+var tt
+
+function goright() {
+    window.clearInterval(timer)
+    var w2 = document.getElementById('jiao').getElementsByTagName('li')
+    t1++
+    t2++
+
+
+    if (t2 > 3) {
+        t2 = 0
+    }
+
+    timer = window.setInterval(function() {
+        goright1()
+    }, 10)
+
+
+    for (var i = 0; i < w2.length; i++) {
+        w2[i].style.backgroundColor = "green"
+    }
+    w2[t2].style.backgroundColor = "#fff"
+
+}
+
+//碎步
+function goright1() {
+    w1 = document.getElementById('nei')
+    tt = parseInt(w1.style.left)
+
+    tt -= 20
+    if (tt <= 4 * -600) {
+        tt = 0
+        t1 = 0
+        window.clearInterval(timer)
+    } else if (tt < t1 * -600) {
+        tt = t1 * -600
+        window.clearInterval(timer)
+    }
+
+    w1.style.left = tt + "px"
+
+}
+
+
+function goleft() {
+    window.clearInterval(timer)
+
+    t1--
+    t2--
+
+    if (t1 < 0) {
+        t1 = 3
+        tt = 4 * -600
+    }
+
+    if (t2 < 0) {
+        t2 = 3
+    }
+
+    timer = window.setInterval(function() {
+        goleft1()
+    }, 10)
+
+
+
+    var w2 = document.getElementById('jiao').getElementsByTagName('li')
+    for (var i = 0; i < w2.length; i++) {
+        w2[i].style.backgroundColor = "green"
+        w2[t2].style.backgroundColor = "#fff"
+    }
+
+}
+
+//碎步
+function goleft1() {
+    w1 = document.getElementById('nei')
+    // tt=parseInt(w1.style.left)
+
+    tt += 20
+    /*if (tt>0) {
+    	tt=4*-600
+    }*/
+    if (tt >= t1 * -600) {
+        tt = t1 * -600
+        window.clearInterval(timer)
+    }
+    w1.style.left = tt + "px"
+
+}
+
+
+function qiejiao(gh) {
+    w1 = document.getElementById('nei')
+    tt = parseInt(w1.style.left)
+    window.clearInterval(timer)
+    if (tt > gh * -600) {
+        timer = window.setInterval(function() {
+            goright2(gh * -600)
+        }, 10)
+    } else if (tt < gh * -600) {
+        timer = window.setInterval(function() {
+            goleft2(gh * -600)
+        }, 10)
+    } else {}
+
+    var w2 = document.getElementById('jiao').getElementsByTagName('li')
+    for (var i = 0; i < w2.length; i++) {
+        w2[i].style.backgroundColor = "green"
+        w2[gh].style.backgroundColor = "#fff"
+    }
+
+    t2 = gh
+    t1 = gh
+}
+
+function goright2(gh1) {
+    w1 = document.getElementById('nei')
+    tt = parseInt(w1.style.left)
+    tt -= 20
+    if (tt < gh1) {
+        tt = gh1
+        window.clearInterval(timer)
+    }
+    w1.style.left = tt + "px"
+
+}
+
+function goleft2(gh1) {
+    w1 = document.getElementById('nei')
+    tt = parseInt(w1.style.left)
+    tt += 20
+    if (tt > gh1) {
+        tt = gh1
+
+        window.clearInterval(timer)
+    }
+    w1.style.left = tt + "px"
+
+}
+</script>
+
+</body>
+</html>

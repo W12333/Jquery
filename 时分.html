@@ -1,0 +1,45 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>时分（原创）-jq22.com</title>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<style>
+</style>
+</head>
+<body>
+<select name="fen" id="fen"></select>时
+<select name="minute" id="minute"></select>分
+
+<script>
+$(function() {
+    var mydate = new Date();
+    var hour = mydate.getHours();
+    var minute = mydate.getMinutes();
+
+    for (var i = 0; i <= 23; i++) {
+        if (i === hour) {
+            var html_hour = '<option selected value="' + i + '">' + i + '</option>';
+        } else {
+            var html_hour = '<option value="' + i + '">' + i + '</option>';
+        }
+
+        $('#fen').append(html_hour);
+
+    }
+
+    for (var j = 0; j <= 59; j++) {
+        if (j === minute) {
+            var html_minute = '<option selected value="' + j + '">' + j + '</option>';
+        } else {
+            var html_minute = '<option value="' + j + '">' + j + '</option>';
+        }
+
+        $('#minute').append(html_minute);
+    }
+
+})
+</script>
+
+</body>
+</html>
