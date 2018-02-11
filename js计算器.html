@@ -1,0 +1,158 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>js逼真的计算器-jq22.com</title>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<style>
+#box {
+	margin:50px auto;
+	padding:2px;
+	background-color:#ebebeb;
+}
+#title {
+	text-align:left;
+	font-weight:bold;
+	font-size:12px;
+}
+input[type="button"] {
+	width:60px;
+	height:45px;
+	line-height:20px;
+	text-align:center;
+}
+.num {
+	border:0px;
+	background-color:#fafafa;
+}
+.symbol {
+	background-color:#f3f3f3;
+	border:0px;
+}
+#zhi {
+	height:40px;
+	width:250px;
+	text-align:right;
+	border:0px;
+	background-color:#ebebeb;
+	font-size:30px;
+	font-weight:bold;
+}
+#count {
+	height:20px;
+	width:250px;
+	text-align:right;
+	border:0px;
+	background-color:#ebebeb;
+}
+</style>
+</head>
+<body>
+<table id="box">
+    <tbody><tr id="title">
+        <td colspan="4">计算器</td>
+    </tr>
+    <tr>
+        <td colspan="4"><input type="text" id="count"></td>
+    </tr>
+    <tr>
+        <td colspan="4"><input type="text" id="zhi"></td>
+    </tr>
+    <tr>
+        <td><input type="button" id="CE" value="CE" class="symbol" onclick="CE()"></td>
+        <td><input type="button" id="C" value="C" class="symbol" onclick="returnToZero()"></td>
+        <td><input type="button" id="delete" value="←" class="symbol" onclick="delete1()"></td>
+        <td><input type="button" id="except" value="/" class="symbol" onclick="look(this.value)"></td>
+    </tr>
+    <tr>
+        <td><input type="button" id="num7" value="7" class="num" onclick="display(this.value)"></td>
+        <td><input type="button" id="num8" value="8" class="num" onclick="display(this.value)"></td>
+        <td><input type="button" id="num9" value="9" class="num" onclick="display(this.value)"></td>
+        <td><input type="button" id="cheng" value="*" class="symbol" onclick="look(this.value)"></td>
+    </tr>
+    <tr>
+        <td><input type="button" id="num4" value="4" class="num" onclick="display(this.value)"></td>
+        <td><input type="button" id="num5" value="5" class="num" onclick="display(this.value)"></td>
+        <td><input type="button" id="num6" value="6" class="num" onclick="display(this.value)"></td>
+        <td><input type="button" id="add" value="+" class="symbol" onclick="look(this.value)"></td>
+    </tr>
+    <tr>
+        <td><input type="button" id="num1" value="1" class="num" onclick="display(this.value)"></td>
+        <td><input type="button" id="num2" value="2" class="num" onclick="display(this.value)"></td>
+        <td><input type="button" id="num3" value="3" class="num" onclick="display(this.value)"></td>
+        <td><input type="button" id="minus" value="-" class="symbol" onclick="look(this.value)"></td>
+    </tr>
+    <tr>
+        <td><input type="button" value="±" class="symbol" onclick="contrary()"></td>
+        <td><input type="button" id="num0" value="0" class="num" onclick="display(this.value)"></td>
+        <td><input type="button" id="point" value="." class="symbol" onclick="look(this.value)"></td>
+        <td><input type="button" id="equal" value="=" class="symbol" onclick="start()"></td>
+    </tr>
+</tbody></table>
+
+<script>
+//显示数字
+function display(value) {
+    var zhi = document.getElementById("zhi");
+    var count = document.getElementById("count");
+    var countValue = count.value;
+    var symbol = countValue.substring(countValue.length - 1);
+    var value = value; //点击事件触发放回的value值赋值给变量value
+    if (equal == 1) //点击=,*,/,-,+与后,再次点击先归零,再传值
+    {
+        zhi.value = "";
+        zhi.value += value;
+        equal = 0;
+    } else if (zhi.value == "0") {
+        zhi.value = value;
+    } else {
+        zhi.value += value;
+    }
+
+
+}
+//点击+，-，*，时，count的显示
+function look(value) {
+    var zhi = document.getElementById("zhi");
+    var count = document.getElementById("count");
+    var value = value;
+    count.value += zhi.value + value;
+    equal = 1;
+}
+//计算
+function start() {
+    var zhi = document.getElementById("zhi");
+    var count = document.getElementById("count");
+    var value = count.value + zhi.value;
+    var return1 = eval("(" + value + ")");
+    document.getElementById("count").value = "";
+    zhi.value = return1;
+    equal = 1;
+}
+//归零
+function returnToZero() {
+    document.getElementById("zhi").value = "0";
+    document.getElementById("count").value = "";
+}
+//Backspace
+function delete1() {
+    var zhi = document.getElementById("zhi");
+    var value = zhi.value;
+    var return1 = value.substr(0, value.length - 1);
+    zhi.value = return1;
+}
+//CE
+function CE() {
+    document.getElementById("zhi").value = 0;
+}
+
+//contrary取相反数
+function contrary() {
+    var zhi = document.getElementById("zhi");
+    var value = zhi.value;
+    zhi.value = parseInt(value * (-1));
+}
+</script>
+
+</body>
+</html>
